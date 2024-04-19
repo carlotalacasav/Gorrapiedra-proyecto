@@ -1,0 +1,17 @@
+NaNs por feature en todos los datos
+
+station_id has 3765 NaNs
+num_bikes_available has 3765 NaNs
+num_bikes_available_types.mechanical has 3765 NaNs
+num_bikes_available_types.ebike has 3765 NaNs
+num_docks_available has 3765 NaNs
+is_installed has 3765 NaNs
+is_renting has 3765 NaNs
+is_returning has 3765 NaNs
+last_reported has 3765 NaNs
+is_charging_station has 3765 NaNs
+status has 3765 NaNs
+last_updated has 3765 NaNs
+ttl has 3765 NaNs
+traffic has 200138821 NaNs
+V1 has 200973778 NaNs
