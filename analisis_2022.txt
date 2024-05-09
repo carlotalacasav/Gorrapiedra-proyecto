@@ -1,0 +1,3 @@
+En 2022 no aparece la columna V1
+No tiene NaNs
+Se puede borrar ttl
