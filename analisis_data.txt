@@ -1,0 +1,3 @@
+En 2022 no aparece la columna V1
+El unico año con NaNs es 2023
+2020 no tiene 'traffic'
