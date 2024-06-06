@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
 
+
 def evaluate_models(y_test, predictions):
     """
     Evaluate the performance of a model using various metrics.
@@ -24,7 +25,7 @@ def evaluate_models(y_test, predictions):
 
 def plot_model_evaluation(y_test, predictions):
 
-    plt.figure(figsize=(10, 6))
+    plt.figure(figsize=(8, 4))
     plt.scatter(y_test, predictions, alpha=0.5)
     plt.plot([min(y_test), max(y_test)], [min(y_test), max(y_test)], color='red', linestyle='--', lw=2)
     plt.xlabel('True Values')
@@ -32,7 +33,7 @@ def plot_model_evaluation(y_test, predictions):
     plt.title('True Values vs Predictions')
     plt.show()
 
-    plt.figure(figsize=(10, 6))
+    plt.figure(figsize=(8, 4))
     sns.histplot(y_test - predictions, bins=30, kde=True)
     plt.xlabel('Prediction Error')
     plt.ylabel('Frequency')
@@ -56,33 +57,3 @@ def plot_linear_model_feature_importance(importance, feature_names):
     plt.ylabel('Feature')
     plt.gca().invert_yaxis()
     plt.show()
-
-    import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
-
-def plot_linear_model_feature_importance(model, feature_names):
-    """
-    Plot feature importances for a linear regression model.
-
-    Parameters:
-    model: Trained linear regression model.
-    feature_names (list of str): List of feature names.
-    """
-    if not hasattr(model, 'coef_'):
-        raise ValueError("The model does not have coefficients. Ensure it is a linear model.")
-    
-    importance = model.coef_
-    
-    # Create a dataframe for plotting
-    feature_importance_df = pd.DataFrame({'Feature': feature_names, 'Importance': importance})
-    feature_importance_df = feature_importance_df.sort_values(by='Importance', ascending=False)
-
-    plt.figure(figsize=(10, 6))
-    plt.barh(feature_importance_df['Feature'], feature_importance_df['Importance'], color='skyblue')
-    plt.xlabel('Importance')
-    plt.ylabel('Feature')
-    plt.title('Linear Model Feature Importances')
-    plt.gca().invert_yaxis()
-    plt.show()
-
