@@ -21,9 +21,12 @@ Em aquest fitxer s'ha desenvolupat un codi amb la finalitat de preprocessar les 
 ## FITXERS DIVIDITS EN ANYS
 Aquests fitxers són extrets d'haver fet un previ codi de preprocessat de les dades, explicat prèviament.
 
+## FITXERS DIVIDITS EN ANYS + INFORMACIÓ EXTRA
+Per a poder millorar els models, hem decidit utilitzar més dades com és el cas del temps meteorològic i les diferents zones de Barcelona, a partir dels codis postals, és a dir, per polígons.
 
 ## VISUALITZACIÓ DE DADES NETES EN EL CORRESPONDENT FORMAT
 
 
 
 ## FITXER DE PREDICCIONS
+Per a dur a terme les nostres prediccions, hem optat per utilitzar una combinació de models lineals i no lineals. En concret, hem implementat dos models lineals, un model de regressió lineal i un XGBoost Regressor (XGBRegressor), així com una xarxa neuronal senzilla. Aquesta elecció ens permet comparar els resultats obtinguts per cadascun d'aquests models i avaluar quin ofereix les millors prediccions.
