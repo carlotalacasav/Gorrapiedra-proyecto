@@ -16,12 +16,12 @@ A continuació, es mostra una breu explicació de cadascun dels notebooks d'aque
 
 
 ## NETEJA DE DADES
-Em aquest fitxer s'ha desenvolupat un codi amb la finalitat de preprocessar les dades i deixar-les en el format adequat. En aquest s'eliminen columnes, valors nan, es formatejan les dates i es creen noves columnes com per exemple el percentatge de disponibilitat de les bicicletes.
+En aquest fitxer s'ha desenvolupat un codi amb la finalitat de preprocessar les dades i deixar-les en el format adequat. En aquest s'eliminen columnes, valors nan, es formategen les dates i es creen noves columnes com per exemple el percentatge de disponibilitat de les bicicletes.
 
 ## FITXERS DIVIDITS EN ANYS
 Aquests fitxers són extrets d'haver fet un previ codi de preprocessat de les dades, explicat prèviament.
 
-## FITXERS DIVIDITS EN ANYS + INFORMACIÓ EXTRA
+## FITXER D'INFORMACIÓ EXTRA AFEGIDA
 Per a poder millorar els models, hem decidit utilitzar més dades com és el cas del temps meteorològic i les diferents zones de Barcelona, a partir dels codis postals, és a dir, per polígons.
 
 ## VISUALITZACIÓ DE DADES NETES EN EL CORRESPONDENT FORMAT
