@@ -41,6 +41,19 @@ def plot_model_evaluation(y_test, predictions):
     plt.show()
 
 
+def feature_importance_abs(importance, feature_names):
+
+    """
+    NOMÉS PER UN linear regression model!!!
+    importance = model.coef_ 
+    feature_names = data.columns (list)
+    """
+    
+    feature_importance_df = pd.DataFrame({'Feature': feature_names, 'Importance': importance})
+    feature_importance_df = feature_importance_df.sort_values(by='Importance', ascending=False)
+    return feature_importance_df
+    
+
 def plot_linear_model_feature_importance(importance, feature_names):
     """
     NOMÉS PER UN linear regression model!!!
