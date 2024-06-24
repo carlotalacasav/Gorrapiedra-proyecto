@@ -2,6 +2,12 @@ from sklearn.metrics import r2_score, mean_absolute_error, mean_squared_error
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
+import numpy as np
+from sklearn.model_selection import KFold
+from sklearn.preprocessing import OneHotEncoder, StandardScaler
+
+
+
 
 
 def evaluate_models(y_test, predictions):
@@ -70,3 +76,31 @@ def plot_linear_model_feature_importance(importance, feature_names):
     plt.ylabel('Feature')
     plt.gca().invert_yaxis()
     plt.show()
+
+def encode_scale(X,scaler,encoder,func):
+    cat_cols = ['station_id','post_code','festius']
+    num_cols = [feat for feat in X.columns if feat not in cat_cols]
+    if func == 'train':
+        encoded = encoder.fit_transform(X[cat_cols])
+        encoded_columns = encoder.get_feature_names_out(cat_cols)
+        encoded = pd.DataFrame(encoded, columns=encoded_columns,index=X.index)
+        encoded[num_cols] = scaler.fit_transform(X[num_cols])
+    elif func == 'test':
+        encoded = encoder.transform(X[cat_cols])
+        encoded_columns = encoder.get_feature_names_out(cat_cols)
+        encoded = pd.DataFrame(encoded, columns=encoded_columns,index=X.index)
+        encoded[num_cols] = scaler.transform(X[num_cols])
+    return encoded
+
+def cross_validation_model(X, y, model, k=5):
+    kf = KFold(n_splits=k,shuffle=True,random_state=1998)
+    scores = []
+    for train_index, test_index in kf.split(X):
+        X_train, X_test = X[train_index], X[test_index]
+        y_train, y_test = y[train_index], y[test_index]
+        
+        model.fit(X_train, y_train)
+        y_pred = model.predict(X_test)
+        score = mean_squared_error(y_test, y_pred)
+        scores.append(score)
+    return scores
