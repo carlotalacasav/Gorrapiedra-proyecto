@@ -78,7 +78,7 @@ def plot_linear_model_feature_importance(importance, feature_names):
     plt.show()
 
 def encode_scale(X,scaler,encoder,func):
-    cat_cols = ['station_id','post_code','festius']
+    cat_cols = ['post_code','festius']
     num_cols = [feat for feat in X.columns if feat not in cat_cols]
     if func == 'train':
         encoded = encoder.fit_transform(X[cat_cols])
@@ -94,13 +94,16 @@ def encode_scale(X,scaler,encoder,func):
 
 def cross_validation_model(X, y, model, k=5):
     kf = KFold(n_splits=k,shuffle=True,random_state=1998)
-    scores = []
+    mse = []
+    r2 = []
     for train_index, test_index in kf.split(X):
-        X_train, X_test = X[train_index], X[test_index]
-        y_train, y_test = y[train_index], y[test_index]
+        X_train, X_test = X.iloc[train_index], X.iloc[test_index]
+        y_train, y_test = y.iloc[train_index], y.iloc[test_index]
         
         model.fit(X_train, y_train)
         y_pred = model.predict(X_test)
-        score = mean_squared_error(y_test, y_pred)
-        scores.append(score)
-    return scores
+        mse.append(mean_squared_error(y_test, y_pred))
+        r2.append(r2_score(y_test,y_pred))
+    mse = np.array(mse)
+    r2 = np.array(r2)
+    return {'r2_mean': r2.mean(), 'r2_std': r2.std(),'mse_mean': mse.mean(), 'mse_std': mse.std()}
