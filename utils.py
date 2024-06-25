@@ -78,7 +78,7 @@ def plot_linear_model_feature_importance(importance, feature_names):
     plt.show()
 
 def encode_scale(X,scaler,encoder,func):
-    cat_cols = ['post_code','festius']
+    cat_cols = ['post_code','festius', 'is_weekend']
     num_cols = [feat for feat in X.columns if feat not in cat_cols]
     if func == 'train':
         encoded = encoder.fit_transform(X[cat_cols])
