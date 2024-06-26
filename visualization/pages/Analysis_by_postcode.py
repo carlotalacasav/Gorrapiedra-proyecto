@@ -77,13 +77,11 @@ filtered_df_hour = df[df['hour'] == selected_hour]
 
 # avg pergentatge per la hora
 avg_docks_hour = filtered_df_hour.groupby('post_code').agg({'percentage_docks_available': 'mean', 'lat': 'first', 'lon': 'first'}).reset_index()
+st.write("## Barcelona Dock Availability - Hourly")
 
 st.write(
     "Map showing the average percentage of docks available in different postcodes of Barcelona at different times."
 )
-
-
-st.write("## Barcelona Dock Availability - Hourly")
 
 #with st.echo(code_location="below"):
 # afegim markers al mapa
@@ -106,11 +104,11 @@ st_folium(m, width=1200, height=500)
 filtered_df_day = df[df['day'] == selected_day]
 avg_docks_day = filtered_df_day.groupby('post_code').agg({'percentage_docks_available': 'mean', 'lat': 'first', 'lon': 'first'}).reset_index()
 
+st.write("## Barcelona Dock Availability - Daily")
+
 st.write(
     "Map showing the average percentage of docks available in different postcodes of Barcelona at different days."
 )
-
-st.write("## Barcelona Dock Availability - Daily")
 
 #with st.echo(code_location="below"):
 # afegim markers al mapa
@@ -128,4 +126,53 @@ for row in avg_docks_day.itertuples():
 st_folium(m, width=1200, height=500)
 
 
+# MES
 
+filtered_df_month = df[df['month'] == selected_month]
+avg_docks_month = filtered_df_month.groupby('post_code').agg({'percentage_docks_available': 'mean', 'lat': 'first', 'lon': 'first'}).reset_index()
+
+st.write("## Barcelona Dock Availability - Monthly")
+st.write(
+    "Map showing the average percentage of docks available in different postcodes of Barcelona at different months."
+)
+
+#with st.echo(code_location="below"):
+# afegim markers al mapa
+m = folium.Map(location=barcelona_coords, zoom_start=12)
+
+for row in avg_docks_month.itertuples():
+    color = get_color(row.percentage_docks_available)
+    folium.Marker(
+        location=[row.lat, row.lon],
+        popup=f"Postcode: {row.post_code}<br>Average Docks Available: {row.percentage_docks_available:.2f}%",
+        tooltip=f"Postcode: {row.post_code}",
+        icon=folium.Icon(color='white', icon_color=color, icon='info-sign')
+    ).add_to(m)
+
+st_folium(m, width=1200, height=500)
+
+# ANY
+
+filtered_df_year = df[df['year'] == selected_year]
+avg_docks_year = filtered_df_year.groupby('post_code').agg({'percentage_docks_available': 'mean', 'lat': 'first', 'lon': 'first'}).reset_index()
+
+st.write("## Barcelona Dock Availability - Yearly")
+
+st.write(
+    "Map showing the average percentage of docks available in different postcodes of Barcelona at different years."
+)
+
+#with st.echo(code_location="below"):
+# afegim markers al mapa
+m = folium.Map(location=barcelona_coords, zoom_start=12)
+
+for row in avg_docks_year.itertuples():
+    color = get_color(row.percentage_docks_available)
+    folium.Marker(
+        location=[row.lat, row.lon],
+        popup=f"Postcode: {row.post_code}<br>Average Docks Available: {row.percentage_docks_available:.2f}%",
+        tooltip=f"Postcode: {row.post_code}",
+        icon=folium.Icon(color='white', icon_color=color, icon='info-sign')
+    ).add_to(m)
+
+st_folium(m, width=1200, height=500)
