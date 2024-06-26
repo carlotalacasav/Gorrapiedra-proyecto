@@ -27,6 +27,7 @@ def get_color(percentage):
 st.set_page_config(
     page_title="Data Analysis by Postcode",
     page_icon="📍",
+    layout="wide"
 )
 
 st.title("Data Analysis by Postcode 📍")
@@ -61,18 +62,68 @@ st.write(
     "Heatmap showing the percentage of docks available in different postcodes of Barcelona at a given time, day, month and year ."
 )
 
-
 m_heatmap = folium.Map(location=barcelona_coords, zoom_start=12)
 heat_data = [[row['lat'], row['lon'], row['percentage_docks_available']] for index, row in avg_docks.iterrows()]
 HeatMap(heat_data, min_opacity=0.2, max_zoom=18, radius=15, blur=15).add_to(m_heatmap)
 
 st_folium(m_heatmap, width=1200, height=500)
 
+st.write("## Heatmap: Differences between hours")
+st.write(
+    "Heatmap showing the mean percentage of docks available at different times of the day in Barcelona ."
+)
+fixed_hours = [8, 16, 22]
 
-# Mapa amb els marcadors de la disponibilitat de bicis per hora i dia
+# Create subplots for each hour
+col1, col2, col3 = st.columns(3)
+
+for hour, col in zip(fixed_hours, [col1, col2, col3]):
+    with col:
+        st.write(f"### Heatmap for {hour}:00")
+        filtered_df_hour = df[df['hour'] == hour]
+        avg_docks_hour = filtered_df_hour.groupby('post_code').agg({'percentage_docks_available': 'mean', 'lat': 'first', 'lon': 'first'}).reset_index()
+        
+        m_heatmap = folium.Map(location=barcelona_coords, zoom_start=11)
+        heat_data = [[row['lat'], row['lon'], row['percentage_docks_available']] for index, row in avg_docks_hour.iterrows()]
+        HeatMap(heat_data, min_opacity=0.2, max_zoom=18, radius=15, blur=15).add_to(m_heatmap)
+        
+        st_folium(m_heatmap, width=400, height=300)
+
+
+import time
+from folium.plugins import HeatMapWithTime
+
+st.write("### Animated Heatmap")
+
+years = [2020, 2021, 2022, 2023]
+
+yearly_data = {year: df[df['year'] == year] for year in years}
+
+def get_heatmap_data(yearly_df):
+    heatmap_data = []
+    for month in range(1, 13):
+        monthly_df = yearly_df[yearly_df['month'] == month]
+        avg_docks = monthly_df.groupby('post_code').agg({
+            'percentage_docks_available': 'mean', 
+            'lat': 'first', 
+            'lon': 'first'
+        }).reset_index()
+        heat_data = [[row['lat'], row['lon'], row['percentage_docks_available']] for index, row in avg_docks.iterrows()]
+        heatmap_data.append(heat_data)
+    return heatmap_data
+
+for year in years:
+    st.write(f"## Heatmap for {year}")
+    heatmap_data = get_heatmap_data(yearly_data[year])
+    m = folium.Map(location=barcelona_coords, zoom_start=12)
+    HeatMapWithTime(heatmap_data, min_opacity=0.2, radius=15, blur=15).add_to(m)
+    st_folium(m, width=1200, height=500)
+
+
+
+# HORES
 
 # dropdown menu
-
 filtered_df_hour = df[df['hour'] == selected_hour]
 
 # avg pergentatge per la hora
