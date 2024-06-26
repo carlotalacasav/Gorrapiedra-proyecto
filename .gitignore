@@ -1,2 +1,6 @@
 outputs/
 __pycache__/
+.DS_store/
+.DS_Store
+data/locations_data/.DS_Store
+data/.DS_Store
