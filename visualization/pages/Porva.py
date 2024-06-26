@@ -31,8 +31,7 @@ geo_df['post_code'] = geo_df['COD_POSTAL'].astype(str)  # Adjust the column name
 # Calculate average percentage docks available by postcode
 avg_percentage_by_postcode = df.groupby('post_code')['percentage_docks_available'].mean().reset_index()
 
-# Debugging: Check the first few rows of the merged data
-st.write("Average percentage by postcode:", avg_percentage_by_postcode.head())
+st.write("Average percentage by postcode:", avg_percentage_by_postcode)
 
 # Merge the GeoDataFrame with the availability data
 merged = geo_df.merge(avg_percentage_by_postcode, on='post_code', how='left')
