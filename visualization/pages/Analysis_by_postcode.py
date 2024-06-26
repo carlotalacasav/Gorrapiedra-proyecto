@@ -18,6 +18,14 @@ colormap = cm.LinearColormap(colors=['red', 'white'], vmin=0, vmax=1)
 def get_color(percentage):
     return colormap(percentage)
 
+st.set_page_config(
+    page_title="Data Analysis by Postcode",
+    page_icon="📍",
+)
+
+st.title("Data Analysis by Postcode 📍")
+
+
 df = load_data("../full_data.csv")
 st.write("Data loaded.")
 
