@@ -34,6 +34,10 @@ El següent treball té la finalitat de fer una predicció del percentatge de mo
 ## MODELS GUARDATS:
 - /models: carpeta que conté arxius amb els models entrenats per la seva fàcil recuperació.
 
+## RESULTATS I IMATGES
+- /results: carpeta amb els resultats dels anàlisis i les imatges
+- /results/images: carpeta amb les visualitzacions realitzades
+
 ## CODI ANTIC:
 - /old: carpeta amb codi antic, guardat per si és necessari recuperar alguna part.
 
@@ -49,4 +53,3 @@ El següent treball té la finalitat de fer una predicció del percentatge de mo
 - Xarxa neuronal bàsica: amb una arquitectura de 128-64-32-1 neurones. Dóna els millors resultats. Evaluada amb 10 i 100 epochs, valors R2 per sobre de 0.86. Millor resultat amb 10-20 epochs.
 - Xarxa neuronal ampliada: amb una capa addicional inicial de 256 neurones. Mostra un overfitting evident, i pitjors resultats que la bàsica.
 - Xarxa neuronal amb dropout: una capa de dropout amb paràmetre 0.5 després de cada capa de neurones. Dóna pitjors resultats a les prediccions i pitjors temps d'entrenament.
-
