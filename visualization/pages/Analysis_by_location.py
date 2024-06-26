@@ -25,12 +25,12 @@ def get_color(percentage):
     return colormap(percentage)
 
 st.set_page_config(
-    page_title="Data Analysis with Heatmaps",
+    page_title="Data Analysis by Location",
     page_icon="📍",
     layout="wide"
 )
 
-st.title("Data Analysis by Postcode 📍")
+st.title("Data Analysis by Location 📍")
 
 
 df = load_data("../full_data.csv")

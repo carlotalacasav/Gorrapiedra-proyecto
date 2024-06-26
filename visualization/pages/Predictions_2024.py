@@ -14,12 +14,12 @@ def load_data(file_path):
 
 
 st.set_page_config(
-    page_title="2024 Predictions",
+    page_title="Predictions 2024",
     page_icon="🔮",
     layout="wide"
 )
 
-st.title("2024 Predictions 🔮")
+st.title("Predictions 2024 🔮")
 
 
 ### code to join the 2024 predictions with the 2024 dataset
