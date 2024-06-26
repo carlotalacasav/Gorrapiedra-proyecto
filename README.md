@@ -36,6 +36,8 @@ El següent treball té la finalitat de fer una predicció del percentatge de mo
 
 # MODELS ESTUDIATS
 
+- evaluate_models.ipynb: diferents models estudiats, entrenats i evaluats.
+
 ## MODELS LINEALS:
 - Regressor Lineal: estudi bàsic per fer servir com a base del projecte. Retorna uns valors R2 de al voltant de 0.80. Ens permet estudiar el comportament general del model i la importància aproximada de cada feature del model de dades.
 - XGBOOST: model lineal més avançat i que dona millors resultats. Valors R2 de entre 0.84 i 0.86.
