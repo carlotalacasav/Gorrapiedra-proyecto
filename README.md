@@ -35,7 +35,7 @@ El següent treball té la finalitat de fer una predicció del percentatge de mo
 - /models: carpeta que conté arxius amb els models entrenats per la seva fàcil recuperació.
 
 ## CODI ANTIC:
--/old: carpeta amb codi antic, guardat per si és necessari recuperar alguna part.
+- /old: carpeta amb codi antic, guardat per si és necessari recuperar alguna part.
 
 # MODELS ESTUDIATS
 

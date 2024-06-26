@@ -176,3 +176,5 @@ for row in avg_docks_year.itertuples():
     ).add_to(m)
 
 st_folium(m, width=1200, height=500)
+
+

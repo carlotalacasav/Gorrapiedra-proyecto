@@ -169,7 +169,7 @@ plt.savefig(results+"weather_impact_comparison.png")
 df = load_data("../full_data.csv")
 # Svae path
 results = 'data/results/images/'
-
+'''
 average_docks_available = df.groupby('capacity')['percentage_docks_available'].mean().reset_index()
 
 plt.figure(figsize=(10, 6))
@@ -215,3 +215,45 @@ plt.ylabel('Average Percentage of Docks Available', fontsize=14)
 
 # Save the plot
 plt.savefig(results+'capacity_utilization_correlation.png')
+
+'''
+
+########### POSTCODES ############  
+
+import geopandas as gpd
+
+
+# Ruta al archivo shapefile descargado
+shapefile_path = 'data/locations_data/geo_data/codigos_postales.shp'
+
+# Cargar el shapefile en un GeoDataFrame
+gdf = gpd.read_file(shapefile_path)
+
+codigos_postales_bcn = ['08001', '08002', '08003', '08004', '08005', '08006', '08007',
+       '08008', '08009', '08010', '08011', '08012', '08013', '08014',
+       '08015', '08016', '08017', '08018', '08019', '08020', '08021',
+       '08022', '08023', '08024', '08025', '08026', '08027', '08028',
+       '08029', '08030', '08031', '08032', '08033', '08034', '08035',
+       '08036', '08037', '08038', '08039', '08041', '08042']
+
+poligs_bcn = gdf[gdf['COD_POSTAL'].isin(codigos_postales_bcn)]
+
+locations = pd.read_csv('data/locations_data/barna_pics.csv', encoding = 'utf-16').groupby('addresses_zip_code').size().reset_index()
+locations.columns = ['addresses_zip_code', 'rating']
+locations['addresses_zip_code'] = '0'+locations['addresses_zip_code'].astype(str)
+poligs_bcn_locs = pd.merge(poligs_bcn, locations, left_on = 'COD_POSTAL', right_on = 'addresses_zip_code')
+
+# Hacemos un mapa de bcn con los códigos postales
+
+fig, ax = plt.subplots(figsize = (10,10))
+poligs_bcn_locs.plot(ax=ax, edgecolor='k', color='skyblue')
+
+# Agregar el código postal en el centro de cada polígono
+for idx, row in poligs_bcn.iterrows():
+    centroid = row.geometry.centroid
+    postal_code = row['COD_POSTAL']
+    ax.text(centroid.x, centroid.y, postal_code, fontsize=8, ha='center', va='center')
+
+
+plt.title('Barcelona Postcodes', fontsize=16)
+plt.savefig(results+'barcelona_postcodes.png')
