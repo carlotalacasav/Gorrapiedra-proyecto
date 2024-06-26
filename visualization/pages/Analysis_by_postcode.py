@@ -3,6 +3,8 @@ import pandas as pd
 import streamlit as st
 from streamlit_folium import st_folium
 import branca.colormap as cm
+from folium.plugins import HeatMap
+
 
 @st.cache_data
 def load_data(file_path):
@@ -33,28 +35,53 @@ st.title("Data Analysis by Postcode 📍")
 df = load_data("../full_data.csv")
 st.write("Data loaded.")
 
-# Extract unique hours  and days and sort them for the filter
+# Barcelona coordinates
+barcelona_coords = [41.41, 2.25]
+
+# Heatmap de disponibilitat per la hora, el dia, mes i l'any
+
 unique_hours = sorted(df['hour'].unique())
 unique_days = sorted(df['day'].unique())
 
-
-
-# Create a dropdown menu for selecting the hour
 selected_hour = st.selectbox('Select Hour', unique_hours)
+selected_day = st.selectbox('Select Day', unique_days)
+selected_month = st.selectbox('Select Month', range(1, 13))
+selected_year = st.selectbox('Select Year', [2020, 2021, 2022, 2023])
 
-# Filter the dataframe based on the selected hour/day
+# filtrem el df per les dades seleccionades
+
+filtered_df = df[(df['hour'] == selected_hour) & (df['day'] == selected_day) & (df['year'] == selected_year) & (df['month'] == selected_month)]
+
+avg_docks = filtered_df.groupby('post_code').agg({'percentage_docks_available': 'mean', 'lat': 'first', 'lon': 'first'}).reset_index()
+
+# Create a heatmap
+st.write("### Heatmap")
+
+st.write(
+    "Heatmap showing the percentage of docks available in different postcodes of Barcelona at a given time, day, month and year ."
+)
+
+
+m_heatmap = folium.Map(location=barcelona_coords, zoom_start=12)
+heat_data = [[row['lat'], row['lon'], row['percentage_docks_available']] for index, row in avg_docks.iterrows()]
+HeatMap(heat_data, min_opacity=0.2, max_zoom=18, radius=15, blur=15).add_to(m_heatmap)
+
+st_folium(m_heatmap, width=1200, height=500)
+
+
+# Mapa amb els marcadors de la disponibilitat de bicis per hora i dia
+
+# dropdown menu
+
 filtered_df_hour = df[df['hour'] == selected_hour]
 
-# Calculate average percentage docks available for each postcode at the selected hour
+# avg pergentatge per la hora
 avg_docks_hour = filtered_df_hour.groupby('post_code').agg({'percentage_docks_available': 'mean', 'lat': 'first', 'lon': 'first'}).reset_index()
-
 
 st.write(
     "Map showing the average percentage of docks available in different postcodes of Barcelona at different times."
 )
 
-# Barcelona coordinates
-barcelona_coords = [41.41, 2.25]
 
 st.write("## Barcelona Dock Availability - Hourly")
 
@@ -74,9 +101,8 @@ for row in avg_docks_hour.itertuples():
 st_folium(m, width=1200, height=500)
 
 
-# REPETEIXO PER DIES DE LA SETMANA
+# DIES DE LA SETMANA
 
-selected_day = st.selectbox('Select Day', unique_days)
 filtered_df_day = df[df['day'] == selected_day]
 avg_docks_day = filtered_df_day.groupby('post_code').agg({'percentage_docks_available': 'mean', 'lat': 'first', 'lon': 'first'}).reset_index()
 
@@ -100,4 +126,6 @@ for row in avg_docks_day.itertuples():
     ).add_to(m)
 
 st_folium(m, width=1200, height=500)
-# atres
+
+
+
