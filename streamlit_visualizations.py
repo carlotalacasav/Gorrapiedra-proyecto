@@ -7,6 +7,7 @@ def load_data(file_path):
     df = pd.read_csv(file_path)
     return df
 
+"""
 def average_percentage_docks_available_per_month_year(df):
     df['date'] = pd.to_datetime(df[['year', 'month']].assign(day=1))
     avg_percentage = df.groupby('date')['percentage_docks_available'].mean()
@@ -149,15 +150,68 @@ plt.yticks(rotation=0)
 plt.tight_layout()  
 plt.savefig(results+"correlation_matrix.png")
 
-# Categorize precipitation into no rain (0 mm) and rain (> 0 mm)
-#df['precip_category'] = df['mm_precip'].apply(lambda x: 'No Rain' if x == 0 else 'Rain')
-#
-## Plot the impact of precipitation categories on dock availability
-#fig, ax1 = plt.subplots(figsize=(8, 6))
-#
-#sns.boxplot(x='precip_category', y='percentage_docks_available', data=df, ax=ax1)
-#ax1.set_xlabel('Precipitation Category')
-#ax1.set_ylabel('Percentage Docks Available')
-#
-#plt.tight_layout()
-#plt.savefig(results+"weather_impact_comparison.png")
+
+#Categorize precipitation into no rain (0 mm) and rain (> 0 mm)
+df['precip_category'] = df['mm_precip'].apply(lambda x: 'No Rain' if x == 0 else 'Rain')
+
+# Plot the impact of precipitation categories on dock availability
+fig, ax1 = plt.subplots(figsize=(8, 6))
+
+sns.boxplot(x='precip_category', y='percentage_docks_available', data=df, ax=ax1)
+ax1.set_xlabel('Precipitation Category')
+ax1.set_ylabel('Percentage Docks Available')
+
+plt.tight_layout()
+plt.savefig(results+"weather_impact_comparison.png") 
+"""
+
+
+df = load_data("../full_data.csv")
+# Svae path
+results = 'data/results/images/'
+
+average_docks_available = df.groupby('capacity')['percentage_docks_available'].mean().reset_index()
+
+plt.figure(figsize=(10, 6))
+sns.barplot(x='capacity', y='percentage_docks_available', data=average_docks_available, 
+            hue = 'capacity', palette='viridis', legend =False)
+plt.xlabel('Capacity', fontsize=14)
+plt.ylabel('Average Percentage of Docks Available', fontsize=14)
+
+# Save the plot
+plt.savefig(results+'capacity.png') 
+
+
+# Create a datetime column
+df['datetime'] = pd.to_datetime(df[['year', 'month', 'day', 'hour']])
+
+# Group by date and calculate the average capacity
+df['date'] = df['datetime'].dt.date
+average_capacity_daily = df.groupby('date')['capacity'].mean().reset_index()
+
+# Convert 'date' back to datetime for plotting
+average_capacity_daily['date'] = pd.to_datetime(average_capacity_daily['date'])
+
+# Plotting
+plt.figure(figsize=(10, 6))
+plt.plot(average_capacity_daily['date'], average_capacity_daily['capacity'], marker='o')
+plt.xlabel('Time', fontsize=14)
+plt.ylabel('Average Capacity', fontsize=14)
+
+# Save the plot
+plt.savefig(results+'average_capacity_daily.png')
+
+average_percentage_docks_available = df.groupby('capacity')['percentage_docks_available'].mean().reset_index()
+
+# Calculate the correlation
+correlation_avg = average_percentage_docks_available['capacity'].corr(average_percentage_docks_available['percentage_docks_available'])
+
+# Plotting
+plt.figure(figsize=(10, 6))
+sns.scatterplot(x='capacity', y='percentage_docks_available', data=average_percentage_docks_available)
+plt.title(f'Correlation between Capacity and Average Percentage of Docks Available\nCorrelation Coefficient: {correlation_avg:.2f}', fontsize=16)
+plt.xlabel('Capacity', fontsize=14)
+plt.ylabel('Average Percentage of Docks Available', fontsize=14)
+
+# Save the plot
+plt.savefig(results+'capacity_utilization_correlation.png')
