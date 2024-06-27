@@ -19,7 +19,7 @@ def get_average_docks(post_code: str, avg_docks_df: pd.DataFrame) -> float:
 
 
 # Create a linear colormap from red to white
-colormap = cm.LinearColormap(colors=['red', 'white'], vmin=0, vmax=1)
+colormap = cm.LinearColormap(colors=['white', 'red'], vmin=0, vmax=1)
 
 def get_color(percentage):
     return colormap(percentage)

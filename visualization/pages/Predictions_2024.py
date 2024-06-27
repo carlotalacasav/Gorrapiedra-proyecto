@@ -50,9 +50,10 @@ st.write(
 )
 
 def get_gradient_color(percentage):
+    col = 1-percentage
     red = int(255)
-    green = int(255 * percentage)
-    blue = int(255 * percentage)
+    green = int(255 * col)
+    blue = int(255 * col)
     return f'#{red:02x}{green:02x}{blue:02x}'
 
 m = folium.Map(location=barcelona_coords, zoom_start=12)
