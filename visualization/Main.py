@@ -27,7 +27,7 @@ st.markdown("""
    - En aquesta secció es presenta l'anàlisi de la disponibilitat de bicicletes basada en la capacitat de les estacions. Inclou gràfics i taules per entendre millor com la capacitat afecta la disponibilitat.
 
 **⭐️ Analysis by Locations**
-    - Comparem a partir de mapes de calor amb la disponibilitat de bicicletes per codi postal, la relació que hi ha amb espais d'interès cultural i d'oci, així com també la quantitat de carrils bicing que hi ha pel voltant.
+   - Comparem a partir de mapes de calor amb la disponibilitat de bicicletes per codi postal, la relació que hi ha amb espais d'interès cultural i d'oci, així com també la quantitat de carrils bicing que hi ha pel voltant.
             
 **📍 Analysis by Station ID**
    - Aquesta pàgina mostra l'anàlisi de la disponibilitat de bicicletes segons el codi postal. Permet visualitzar les dades de diferents regions per identificar patrons i tendències.
