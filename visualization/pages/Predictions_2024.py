@@ -86,46 +86,6 @@ filtered_df = df[(df['hour'] == selected_hour) & (df['day'] == selected_day) & (
 
 avg_docks = filtered_df.groupby('post_code').agg({'percentage_docks_available': 'mean', 'lat': 'first', 'lon': 'first'}).reset_index()
 
-st.write("# Heatmap of the prediction for 2024")
-st.write(
-    "Heatmap showing the prediction of the percentage of docks available in different postcodes of Barcelona at a given hour, day and month for 2024."
-)
-
-
-m_heatmap = folium.Map(location=barcelona_coords, zoom_start=12)
-heat_data = [[row['lat'], row['lon'], row['percentage_docks_available']] for index, row in avg_docks.iterrows()]
-#HeatMap(heat_data, min_opacity=0.2, max_zoom=18, radius=15, blur=15).add_to(m_heatmap)
-
-for index, row in avg_docks.iterrows():
-    percentage = row['percentage_docks_available']
-    circle_color = 'blue'  # Default color
-    if percentage <= 0.4:
-        circle_color = 'blue'
-    elif 0.4 < percentage <= 0.5:
-        circle_color = 'lime'
-    elif 0.5 < percentage <= 0.6:
-        circle_color = 'green'
-    elif 0.6 < percentage <= 0.7:
-        circle_color = 'pink'
-    else:
-        circle_color = 'red'
-
-    folium.CircleMarker(
-        location=[row['lat'], row['lon']],
-        radius=8,
-        fill=True,
-        color=circle_color,
-        fill_color=circle_color,
-        fill_opacity=0.7,
-        tooltip=f"{percentage:.2f}%",  
-        popup=f"{percentage:.2f}%",  
-        icon=folium.DivIcon(html=f"<div style='text-align:center; font-size:10pt; background-color:transparent'>{percentage:.2f}%</div>")
-    ).add_to(m_heatmap)
-
-folium_static(m_heatmap)
-
-#st_folium(m_heatmap, width=1200, height=500)
-
 st.write("# Average percentage by hour and day")
 st.write(
     "Heatmap showing the prediction of the average percentage of docks available by hour and day -  2024."
