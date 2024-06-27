@@ -30,7 +30,7 @@ st.set_page_config(
     layout="wide"
 )
 
-st.title("Data Analysis by Location 📍")
+st.title("Data Analysis by Post Code 📍")
 
 
 df = load_data("../full_data.csv")
