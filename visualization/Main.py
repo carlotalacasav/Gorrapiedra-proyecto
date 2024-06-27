@@ -29,7 +29,7 @@ st.markdown("""
 **⭐️ Analysis by Locations**
    - Comparem a partir de mapes de calor amb la disponibilitat de bicicletes per codi postal, la relació que hi ha amb espais d'interès cultural i d'oci, així com també la quantitat de carrils bicing que hi ha pel voltant.
             
-**📍 Analysis by Station ID**
+**📍 Analysis by Post Code**
    - Aquesta pàgina mostra l'anàlisi de la disponibilitat de bicicletes segons el codi postal. Permet visualitzar les dades de diferents regions per identificar patrons i tendències.
 
 **⌛ Analysis by Time**
