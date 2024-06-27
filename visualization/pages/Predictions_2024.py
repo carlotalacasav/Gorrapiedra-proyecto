@@ -32,11 +32,44 @@ df = load_data("../full_data_2024.csv")
 df['percentage_docks_available'] = y['percentage_docks_available']
 
 
-st.write("2024 Data loaded. MSE = 0.1")
-
+st.write("Data from 2024 loaded. MSE = 0.1")
 
 # Barcelona coordinates
 barcelona_coords = [41.41, 2.25]
+
+
+avg_docks_hour = df.groupby('post_code').agg({
+    'percentage_docks_available': 'mean',
+    'lat': 'first',
+    'lon': 'first'
+}).reset_index()
+
+st.write("## Barcelona Dock Availability ")
+st.write(
+    "Map showing the average predicted percentage of docks available in different postcodes of Barcelona at different times."
+)
+
+def get_gradient_color(percentage):
+    red = int(255)
+    green = int(255 * percentage)
+    blue = int(255 * percentage)
+    return f'#{red:02x}{green:02x}{blue:02x}'
+
+m = folium.Map(location=barcelona_coords, zoom_start=12)
+
+for row in avg_docks_hour.itertuples():
+    color = get_gradient_color(row.percentage_docks_available)
+    folium.Marker(
+        location=[row.lat, row.lon],
+        popup=(
+            f"Postcode: {row.post_code}<br>"
+            f"Predicted Avg Docks Available: {row.percentage_docks_available:.2f}%"
+        ),
+        tooltip=f"Postcode: {row.post_code}",
+        icon=folium.Icon(color='white', icon_color=color, icon='info-sign')
+    ).add_to(m)
+
+st_folium(m, width=1200, height=500)
 
 # Heatmap de disponibilitat per la hora, el dia i mes
 unique_hours = sorted(df['hour'].unique())
