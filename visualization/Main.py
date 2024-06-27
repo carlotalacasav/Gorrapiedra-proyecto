@@ -38,6 +38,9 @@ st.markdown("""
 **🍂 Analysis by Weather**
    - Aquesta pàgina explora la relació entre les condicions climàtiques i la disponibilitat de bicicletes. S'hi poden trobar dades sobre com factors com la temperatura o la pluja influeixen en la disponibilitat.    
 
+**🔮 Predictions 2024**
+   - Aquesta gràfica fa servir gràfics generats anteriorment per ensenyar la mitjana dels resultats predits per estació. 
+            
 Gràcies per visitar el nostre projecte!
 """)
 
