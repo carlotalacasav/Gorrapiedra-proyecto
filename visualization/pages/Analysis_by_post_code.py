@@ -25,7 +25,7 @@ def get_color(percentage):
     return colormap(percentage)
 
 st.set_page_config(
-    page_title="Data Analysis by Location",
+    page_title="Data Analysis by Post Code",
     page_icon="📍",
     layout="wide"
 )
