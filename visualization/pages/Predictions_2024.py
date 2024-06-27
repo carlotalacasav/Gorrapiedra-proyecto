@@ -72,7 +72,12 @@ for row in avg_docks_hour.itertuples():
 
 st_folium(m, width=1200, height=500)
 
+########################################################################
 # Heatmap de disponibilitat per la hora, el dia i mes
+st.write("## Heatmap of the prediction for 2024")
+st.write(
+    "Heatmap showing the prediction of the percentage of docks available in different postcodes of Barcelona at a given hour, day and month for 2024."
+)
 unique_hours = sorted(df['hour'].unique())
 unique_days = sorted(df['day'].unique())
 
@@ -86,13 +91,18 @@ filtered_df = df[(df['hour'] == selected_hour) & (df['day'] == selected_day) & (
 
 avg_docks = filtered_df.groupby('post_code').agg({'percentage_docks_available': 'mean', 'lat': 'first', 'lon': 'first'}).reset_index()
 
-st.write("# Average percentage by hour and day")
+m_heatmap = folium.Map(location=barcelona_coords, zoom_start=12)
+heat_data = [[row['lat'], row['lon'], row['percentage_docks_available']] for index, row in avg_docks.iterrows()]
+HeatMap(heat_data, min_opacity=0.2, max_zoom=18, radius=15, blur=15).add_to(m_heatmap)
+
+st_folium(m_heatmap, width=1200, height=500)
+
+########################################################################
+st.write("## Average percentage by hour and day")
 st.write(
     "Heatmap showing the prediction of the average percentage of docks available by hour and day -  2024."
 )
 
 results = 'data/results/images/2024/'
-st.header("Average Percentage Docks Available per ...")
-st.subheader("Docks Available per Hour and Day")
 img1 = Image.open(results+"average_percentage_by_hour_and_day.png")
 st.image(img1)
